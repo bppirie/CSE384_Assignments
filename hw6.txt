@@ -1,0 +1,118 @@
+- Bradley Pirie
+- CSE384
+- Homework 6
+- 05APR2021
+
+____________________________________________________________________________________________________________________________
+#include <stdio.h>
+#include <string.h>
+
+/* Bradley Pirie
+   CSE384
+   Homework 6
+   Problem 7
+
+   Write code to split an input string (variable “name”) into two output strings
+   (variables “first” and “last”). Assume that the user provides input containing
+   only the characters a through z and A through Z. Assume there are exactly two
+   capital letters in the input, one at the beginning of the first name, and one at
+   the beginning of the last name. For example, given the input “JoeSmith”, your
+   code should split it into “Joe” and “Smith”
+*/
+
+int main() {
+   char name[50], first[25], last[25];
+   printf("What is your name? ");
+   scanf("%s",name);
+   int flag = 0;        // flag=0 is first name, flag=1 is last name
+   int j = 0;           // j will go through last[]
+   first[0] = name[0];  // Place first capital letter from first name in first[]
+   for (int i = 1; name[i] != '\0'; i++) {   // iterate through input starting with second letter
+      char c = name[i]; // Save current letter as c
+      if (c >= 'A' && c <= 'Z') { // Check if c is capital, if it is then we have reached the first letter of last name
+         first[i] = '\0';     // End first[] with null char
+         last[j] = c;         // Place the capital in last[]
+         j += 1;              // Increment j
+         flag = 1;            // Set flag=1 to know we are in the last name
+      }
+      else if (flag == 0) {   // If flag is 0 then copy name[] to first[]
+         first[i] = c;
+      }
+      else {                  // If flag is 1 then copy name[] to last[] and increment j
+         last[j] = c;
+         j += 1;
+      }
+   }
+   last[j] = '\0';            // After iterating through name[], end last[] with null char
+   return 0;
+}
+____________________________________________________________________________________________________________________________
+#include <stdio.h>
+#include <string.h>
+
+/* Bradley Pirie
+   CSE384
+   Homework 6
+   Problem 10
+
+   Write code to “de-vowel” an input string. Assume that the user provides input
+   containing only the characters a through z (and all lowercase). Your code should
+   create an output string that deletes all vowels from the input string, pushing the
+   letters together to fill any gaps. For example, given the input “theturtleandthehare” 
+   your code should print out “thtrtlndthhr”
+*/
+
+int main() {
+   char input[80], output[80];
+   printf("Enter a string: ");
+   scanf("%s",input);
+   int i, j;      // i goes through input[] and j goes through output[]
+   for (i = j = 0; input[i] != '\0'; i++) {     // Iterate through input[]
+      char c = input[i];      // Save current char as c
+      if (c != 'a' && c != 'e' && c != 'i' && c != 'o' && c != 'u') {   // Make sure c is not a vowel
+         output[j] = c;    // If c is not a vowel then copy it to output[]
+         j += 1;           // Increment j
+      }
+   }
+   output[j] = '\0';       // After iterating through input[], end output[] with null char
+   return 0;
+}
+____________________________________________________________________________________________________________________________
+#include <stdio.h>
+#include <string.h>
+
+/* Bradley Pirie
+   CSE384
+   Homework 6
+   Problem 13
+
+   Write a program that looks at all the command line arguments and reports if any
+   of the arguments are the same (i.e., they match exactly). The program should
+   print out the matching argument and the positions it occupies in the list of
+   arguments
+*/
+
+int main(int argc, char *argv[]) {     // Save arguments in argv[]
+   for (int i = 0; i < argc; i++) {    // Iterate through argv[]
+      int flag = 0;     // flag=0 means no repeats found, flag=1 means there is a repeat
+      if (argv[i] != "") { // If argv[i] is empty then it has already been tested so skip
+         for (int j = i + 1; j < argc; j++) {   // Iterate through agrv[] starting at i
+            if (argv[j] != "" && strcmp(argv[i], argv[j]) == 0) { // Check if argv[j] is nonempty and the same as argv[i]
+               if (flag == 1) {  // If flag=1 add the additional repeat to output
+                  argv[i] = "";  // Set argv[i] to emtpy since it has been tested
+                  printf(", %d", j);   // Print the additional repeat
+               }
+               else { // Then flag=0 so this is the first repeat of this type
+                  argv[j] = "";  // Set agrv[i]'s repeat to empty
+                  printf("Argument \"%s\" repeats at positions %d, %d", argv[i], i, j); // Print that the argument does have a repeat as well as the first 2 positions
+                  flag = 1;      // Set flag=1 to indicate that any other repeat will be an addition to the output printed above
+               }
+            }
+         }
+         argv[i] = ""; // After iterating through all elements after argv[i] mark it empty to indicate it has been tested
+         if (flag == 1) {  // If flag=1 then argv[i] had a repeat and therfore printed out a line
+            printf("\n");  // Print out new line for the next argument
+         }
+      }
+   }
+}
