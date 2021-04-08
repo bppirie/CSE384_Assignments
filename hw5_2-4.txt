@@ -1,0 +1,32 @@
+Bradley Pirie 
+CSE384
+HW5 Exercise 2-4
+25MAR2021
+
+_________________________________________________________________________________
+
+#include <stdio.h>
+#include <string.h>
+
+/* Write an alternative version of squeeze(s1,s2) that deletes each character in s1
+   that matches any character in the string s2.
+*/
+
+void squeeze(char s1[], char s2[]) {
+   
+   int i, j, k;
+   for (i = j = 0; s1[i] != '\0'; i++) {	// Iterate through s1[]
+      int flag = 0;				// Create flag variable set to 0, set to 1 if s1[i] matches element in s2[]
+      for (k = 0; s2[k] != '\0'; k++) {		// Iterate through s2[] for each s1[i]
+         if (s1[i] == s2[k]) {			// Compare s[i] to s2[k], if they match set flag to 1 and break out
+            flag = 1;
+            break;
+         }
+      }
+      if (count == 0) {		// If s1[i] doesnt match any element of s2[] then flag is 0
+         s1[j] = s1[i];		// Set s1[j] = s1[i]
+         j += 1;		// Increment j
+      }
+   }
+   s1[j] = '\0';	// Once we have processed all of s1[] truncate the rest of s1[] by setting s1[j] equal to null char
+}
